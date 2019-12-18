@@ -42,8 +42,8 @@ CREATE TABLE vacancy_body_specialization (
     FOREIGN KEY (specialization_id) REFERENCES specialization(specialization_id)
 );
 
-CREATE TABLE cv_body (
-    cv_body_id serial PRIMARY KEY,
+CREATE TABLE resume_body (
+    resume_body_id serial PRIMARY KEY,
     desired_position varchar(100),
     work_schedule_type integer DEFAULT 0 NOT NULL,
     employment_type integer DEFAULT 0 NOT NULL,
@@ -55,8 +55,8 @@ CREATE TABLE cv_body (
     language_knowledge text
 );
 
-CREATE TABLE cv (
-    cv_id serial PRIMARY KEY,
+CREATE TABLE resume (
+    resume_id serial PRIMARY KEY,
     creation_time timestamp NOT NULL,
     expire_time timestamp NOT NULL,
     full_name varchar(200) DEFAULT ''::varchar NOT NULL,
@@ -66,23 +66,25 @@ CREATE TABLE cv (
     phone_number varchar(20) NOT NULL,
     email varchar(100) NOT NULL,
     visible boolean DEFAULT true NOT NULL,
-    cv_body_id serial,
+    resume_body_id serial,
     area_id integer,
-    FOREIGN KEY (cv_body_id) REFERENCES cv_body(cv_body_id)
+    FOREIGN KEY (resume_body_id) REFERENCES resume_body(resume_body_id)
 );
 
-CREATE TABLE cv_specialization (
+CREATE TABLE resume_specialization (
     specialization_id serial NOT NULL,
-    cv_id serial NOT NULL,
-    PRIMARY KEY (specialization_id, cv_id),
+    resume_id serial NOT NULL,
+    PRIMARY KEY (specialization_id, resume_id),
     FOREIGN KEY (specialization_id) REFERENCES specialization(specialization_id),
-    FOREIGN KEY (cv_id) REFERENCES cv(cv_id)
+    FOREIGN KEY (resume_id) REFERENCES resume(resume_id)
 );
 
 CREATE TABLE response (
     vacancy_id serial NOT NULL,
-    cv_id serial NOT NULL,
-    PRIMARY KEY (vacancy_id, cv_id),
+    resume_id serial NOT NULL,
+    response_time timestamp NOT NULL,
+    PRIMARY KEY (vacancy_id, resume_id),
     FOREIGN KEY (vacancy_id) REFERENCES vacancy(vacancy_id),
-    FOREIGN KEY (cv_id) REFERENCES cv(cv_id)
+    FOREIGN KEY (resume_id) REFERENCES resume(resume_id)
 );
+
