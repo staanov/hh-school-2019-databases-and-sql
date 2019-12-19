@@ -29,7 +29,7 @@ CREATE TABLE vacancy (
     employer_id integer DEFAULT 0 NOT NULL,    
     disabled boolean DEFAULT false NOT NULL,
     visible boolean DEFAULT true NOT NULL,
-    vacancy_body_id serial,
+    vacancy_body_id integer,
     area_id integer,
     FOREIGN KEY (vacancy_body_id) REFERENCES vacancy_body(vacancy_body_id)
 );
@@ -47,8 +47,7 @@ CREATE TABLE resume_body (
     desired_position varchar(100),
     work_schedule_type integer DEFAULT 0 NOT NULL,
     employment_type integer DEFAULT 0 NOT NULL,
-    compensation_from bigint,
-    compensation_to bigint,
+    salary bigint,
     education text,
     work_experience text,
     key_skills text,
@@ -62,26 +61,25 @@ CREATE TABLE resume (
     full_name varchar(200) DEFAULT ''::varchar NOT NULL,
     gender varchar(6) NOT NULL,
     date_of_birth date NOT NULL,
-    city varchar(100) NOT NULL,
     phone_number varchar(20) NOT NULL,
     email varchar(100) NOT NULL,
     visible boolean DEFAULT true NOT NULL,
-    resume_body_id serial,
+    resume_body_id integer,
     area_id integer,
     FOREIGN KEY (resume_body_id) REFERENCES resume_body(resume_body_id)
 );
 
 CREATE TABLE resume_specialization (
-    specialization_id serial NOT NULL,
-    resume_id serial NOT NULL,
+    specialization_id integer NOT NULL,
+    resume_id integer NOT NULL,
     PRIMARY KEY (specialization_id, resume_id),
     FOREIGN KEY (specialization_id) REFERENCES specialization(specialization_id),
     FOREIGN KEY (resume_id) REFERENCES resume(resume_id)
 );
 
 CREATE TABLE response (
-    vacancy_id serial NOT NULL,
-    resume_id serial NOT NULL,
+    vacancy_id integer NOT NULL,
+    resume_id integer NOT NULL,
     response_time timestamp NOT NULL,
     PRIMARY KEY (vacancy_id, resume_id),
     FOREIGN KEY (vacancy_id) REFERENCES vacancy(vacancy_id),
