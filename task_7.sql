@@ -1,0 +1,1 @@
+CREATE INDEX rs_index ON resume_specialization(resume_id) INCLUDE (specialization_id);
