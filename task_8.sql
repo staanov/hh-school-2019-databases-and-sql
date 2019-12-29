@@ -24,5 +24,4 @@ SELECT
     last_change_time,
     json
 FROM resume_changes
-WHERE resume_id = 1
 ORDER BY resume_id, last_change_time;
