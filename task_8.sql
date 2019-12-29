@@ -24,6 +24,9 @@ FOR EACH ROW EXECUTE FUNCTION save_changes();
 SELECT
     resume_id,
     last_change_time,
-    json
+    resume_changes.json ->> 'full_name' AS old_name,
+    full_name AS new_name
 FROM resume_changes
+INNER JOIN resume
+USING (resume_id)
 ORDER BY resume_id, last_change_time;
