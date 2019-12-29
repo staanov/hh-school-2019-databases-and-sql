@@ -8,11 +8,13 @@ CREATE TABLE resume_changes (
 
 CREATE FUNCTION save_changes() RETURNS trigger AS $save_changes$
     BEGIN
-        IF NEW IS NULL THEN
-            RETURN OLD;
-        END IF;
         INSERT INTO resume_changes (resume_id, last_change_time, json)
         VALUES (OLD.resume_id, now(), to_json(old.*));
+        IF NEW IS NULL THEN
+            RETURN OLD;
+        ELSE
+            RETURN NEW;
+        END IF;
     END;
 $save_changes$ LANGUAGE plpgsql;
 
